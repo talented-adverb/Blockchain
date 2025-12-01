@@ -1,0 +1,248 @@
+import React, { useState, useContext } from "react";
+
+// INTERNAL IMPORTS
+import { CrowdFundingContext } from "../Context/CrowdFunding";
+// Assuming Logo and Menu components exist
+import { Logo, Menu } from "../Components/index";
+
+const NavBar = () => {
+  // Access state and functions from the context
+  const { currentAccount, connectWallet, disconnectWallet } = useContext(CrowdFundingContext);
+
+  // State for controlling the mobile menu's visibility
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  // State for loading and errors
+  const [isConnecting, setIsConnecting] = useState(false);
+  const [connectionError, setConnectionError] = useState("");
+
+  // Handle connect wallet
+  const handleConnect = async () => {
+    setConnectionError("");
+    setIsConnecting(true);
+    try {
+      await connectWallet();
+    } catch (error) {
+      console.error("Connect wallet error:", error);
+      setConnectionError("Failed to connect wallet. Please try again.");
+    } finally {
+      setIsConnecting(false);
+    }
+  };
+
+  // Handle disconnect wallet
+  const handleDisconnect = () => {
+    disconnectWallet();
+    setConnectionError("");
+  };
+
+  // Array of links for the navigation menu
+  const menuList = ["White Paper", "Project", "Donation", "Members"];
+
+  return (
+    <div className="backgroundMain">
+      <div className="px-4 py-5 mx-auto sm:max-w-xl md:max-w-full lg:max-w-screen-xl md:px-24 lg:px-8">
+        <div className="relative flex items-center justify-between">
+          
+          {/* --- DESKTOP NAV LEFT SIDE --- */}
+          <div className="flex items-center">
+            {/* Logo and Company Name (Desktop/Dark Background) */}
+            <a
+              href="/"
+              aria-label="Company"
+              title="Company"
+              className="inline-flex items-center mr-8"
+            >
+              <Logo color="text-white" />
+              <span className="ml-2 text-xl font-bold tracking-wide text-gray-100 uppercase">
+                Company
+              </span>
+            </a>
+            
+            {/* Desktop Navigation Links */}
+            <ul className="flex items-center hidden space-x-8 lg:flex">
+              {menuList.map((el, i) => (
+                <li key={i + 1}>
+                  <a
+                    href="/"
+                    aria-label="Our product"
+                    title="Our product"
+                    className="font-medium tracking-wide text-gray-100 transition-colors duration-200 hover:text-teal-accent-400"
+                  >
+                    {el}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* --- DESKTOP NAV RIGHT SIDE --- */}
+          {currentAccount ? (
+            <ul className="flex items-center hidden space-x-8 lg:flex">
+              <li>
+                <span className="text-white font-medium">
+                  {currentAccount.slice(0, 6)}...{currentAccount.slice(-4)}
+                </span>
+              </li>
+              <li>
+                <button
+                  onClick={handleDisconnect}
+                  className="inline-flex items-center justify-center h-12 px-6 font-medium tracking-wide text-white transition duration-200 rounded shadow-md bg-red-500 hover:bg-red-700 focus:shadow-outline focus:outline-none"
+                  aria-label="Disconnect Wallet"
+                  title="Disconnect Wallet"
+                >
+                  Disconnect
+                </button>
+              </li>
+            </ul>
+          ) : (
+            <ul className="flex items-center hidden space-x-8 lg:flex">
+              <li>
+                <button
+                  onClick={handleConnect}
+                  disabled={isConnecting}
+                  className={`inline-flex items-center justify-center h-12 px-6 font-medium tracking-wide text-white transition duration-200 rounded shadow-md focus:shadow-outline focus:outline-none ${
+                    isConnecting
+                      ? "bg-gray-400 cursor-not-allowed"
+                      : "bg-deep-purple-accent-400 hover:bg-deep-purple-accent-700 background"
+                  }`}
+                  aria-label="Connect Wallet"
+                  title="Connect Wallet"
+                >
+                  {isConnecting ? "Connecting..." : "Connect Wallet"}
+                </button>
+              </li>
+              {connectionError && (
+                <li>
+                  <span className="text-red-400 text-sm">{connectionError}</span>
+                </li>
+              )}
+            </ul>
+          )}
+
+          {/* --- MOBILE MENU TRIGGER --- */}
+          <div className="lg:hidden z-40">
+            <button
+              aria-label="Open Menu"
+              title="Open Menu"
+              className="p-2 -mr-1 transition duration-200 rounded focus:outline-none focus:shadow-outline"
+              onClick={() => setIsMenuOpen(true)}
+            >
+              {/* Menu Icon (Assuming a Menu component or SVG is placed here) */}
+              <Menu />
+            </button>
+          </div>
+
+          {/* --- MOBILE MENU OVERLAY --- */}
+          {isMenuOpen && (
+              <div className="absolute top-0 left-0 w-full">
+                  <div className="p-5 bg-white border rounded shadow-sm">
+                      
+                      {/* Header: Logo and Close Button */}
+                      <div className="flex items-center justify-between mb-4">
+                          <div>
+                              {/* Logo and Company Name (Mobile/Light Background) */}
+                              <a
+                                  href="/"
+                                  aria-label="Company"
+                                  title="Company"
+                                  className="inline-flex items-center"
+                              >
+                                  <Logo color="text-black" />
+                                  <span className="ml-2 text-xl font-bold tracking-wide text-gray-800 uppercase">
+                                      Company
+                                  </span>
+                              </a>
+                          </div>
+                          
+                          {/* Close Menu Button */}
+                          <div>
+                              <button
+                                  aria-label="Close Menu"
+                                  title="Close Menu"
+                                  className="p-2 -mt-2 -mr-2 transition duration-200 rounded hover:bg-gray-200 focus:bg-gray-200 focus:outline-none focus:shadow-outline"
+                                  onClick={() => setIsMenuOpen(false)}
+                              >
+                                  {/* Close SVG Icon */}
+                                  <svg className="w-5 text-gray-600" viewBox="0 0 24 24">
+                                      <path
+                                          fill="currentColor"
+                                          d="M19.7,4.3c-0.4-0.4-1-0.4-1.4,0L12,10.6L5.7,4.3c-0.4-0.4-1-0.4-1.4,0s-0.4,1,0,1.4l6.3,6.3l-6.3,6.3 c-0.4,0.4-0.4,1,0,1.4C4.5,19.9,4.7,20,5,20s0.5-0.1,0.7-0.3l6.3-6.3l6.3,6.3c0.2,0.2,0.5,0.3,0.7,0.3s0.5-0.1,0.7-0.3 c0.4-0.4,0.4-1,0-1.4L13.4,12l6.3-6.3C20.1,5.3,20.1,4.7,19.7,4.3z"
+                                      />
+                                  </svg>
+                              </button>
+                          </div>
+                      </div>
+
+                      {/* Navigation Links and Connect Button (Mobile) */}
+                      <nav>
+                          <ul className="space-y-4">
+                              {/* Map through the menuList array */}
+                              {menuList.map((el, i) => (
+                                  <li key={i + 1}>
+                                      <a
+                                          href="/"
+                                          aria-label="Our product"
+                                          title="Our product"
+                                          className="font-medium tracking-wide text-gray-700 transition-colors duration-200 hover:text-deep-purple-accent-400"
+                                      >
+                                          {el} 
+                                      </a>
+                                  </li>
+                              ))}
+                              
+                              {/* Wallet Section (Mobile) */}
+                              {currentAccount ? (
+                                <>
+                                  <li>
+                                    <span className="font-medium text-gray-700">
+                                      {currentAccount.slice(0, 6)}...{currentAccount.slice(-4)}
+                                    </span>
+                                  </li>
+                                  <li>
+                                    <button
+                                      onClick={handleDisconnect}
+                                      className="inline-flex items-center justify-center w-full h-12 px-6 font-medium tracking-wide text-white transition duration-200 rounded shadow-md bg-red-500 hover:bg-red-700 focus:shadow-outline focus:outline-none"
+                                      aria-label="Disconnect Wallet"
+                                      title="Disconnect Wallet"
+                                    >
+                                      Disconnect Wallet
+                                    </button>
+                                  </li>
+                                </>
+                              ) : (
+                                <>
+                                  <li>
+                                    <button
+                                      onClick={handleConnect}
+                                      disabled={isConnecting}
+                                      className={`inline-flex items-center justify-center w-full h-12 px-6 font-medium tracking-wide text-white transition duration-200 rounded shadow-md focus:shadow-outline focus:outline-none ${
+                                        isConnecting
+                                          ? "bg-gray-400 cursor-not-allowed"
+                                          : "bg-deep-purple-accent-400 hover:bg-deep-purple-accent-700 background"
+                                      }`}
+                                      aria-label="Connect Wallet"
+                                      title="Connect Wallet"
+                                    >
+                                      {isConnecting ? "Connecting..." : "Connect Wallet"}
+                                    </button>
+                                  </li>
+                                  {connectionError && (
+                                    <li>
+                                      <span className="text-red-500 text-sm">{connectionError}</span>
+                                    </li>
+                                  )}
+                                </>
+                              )}
+                          </ul>
+                      </nav>
+                  </div>
+              </div>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default NavBar;

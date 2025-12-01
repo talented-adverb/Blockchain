@@ -1,0 +1,19 @@
+(globalThis.TURBOPACK_CHUNK_LISTS || (globalThis.TURBOPACK_CHUNK_LISTS = [])).push({
+    script: typeof document === "object" ? document.currentScript : undefined,
+    chunks: [
+  "static/chunks/[root-of-the-server]__889d9050._.js",
+  "static/chunks/eae68_next_dist_compiled_d9af1f38._.js",
+  "static/chunks/eae68_next_dist_shared_lib_92ac6a71._.js",
+  "static/chunks/eae68_next_dist_client_d018363e._.js",
+  "static/chunks/eae68_next_dist_caad179b._.js",
+  "static/chunks/eae68_react_48954436._.js",
+  "static/chunks/eae68_react-dom_cjs_react-dom_development_2860eacf.js",
+  "static/chunks/eae68_react-dom_0c6dfdcc._.js",
+  "static/chunks/eae68_web3modal_dist_index_153f0614.js",
+  "static/chunks/eae68_@ethersproject_abi_lib_esm_473110a1._.js",
+  "static/chunks/eae68_@ethersproject_providers_lib_esm_172402b4._.js",
+  "static/chunks/eae68_a556ae20._.js",
+  "static/chunks/Croud-funding-starter-file-main_styles_globals_769c1a38.css"
+],
+    source: "entry"
+});

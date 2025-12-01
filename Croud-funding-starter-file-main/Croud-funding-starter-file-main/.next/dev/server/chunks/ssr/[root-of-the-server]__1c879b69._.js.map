@@ -1,0 +1,6 @@
+{
+  "version": 3,
+  "sources": [],
+  "sections": [
+    {"offset": {"line": 10, "column": 0}, "map": {"version":3,"sources":["file:///C:/Users/pratham/Desktop/BlockChain_Project/Croud-funding-starter-file-main/Croud-funding-starter-file-main/pages/_app.js"],"sourcesContent":["import \"../styles/globals.css\";\n\nexport default function App({ Component, pageProps }) {\n  return (\n    <div>\n      <Component {...pageProps} />\n    </div>\n  );\n}\n"],"names":[],"mappings":";;;;;;;AAEe,SAAS,IAAI,EAAE,SAAS,EAAE,SAAS,EAAE;IAClD,qBACE,qKAAC;kBACC,cAAA,qKAAC;YAAW,GAAG,SAAS;;;;;;;;;;;AAG9B"}}]
+}

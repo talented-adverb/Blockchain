@@ -1,0 +1,6 @@
+{
+  "version": 3,
+  "sources": [],
+  "sections": [
+    {"offset": {"line": 4, "column": 0}, "map": {"version":3,"sources":["file:///C:/Users/pratham/Desktop/BlockChain_Project/Croud-funding-starter-file-main/Croud-funding-starter-file-main/pages/index.js"],"sourcesContent":["import React from \"react\";\n\nconst ChatApp = () => {\n  return <div>ChatApp</div>;\n\n};\n\nexport default ChatApp;\n"],"names":[],"mappings":";;;;;AAAA;;;AAEA,MAAM,UAAU;IACd,qBAAO,qKAAC;kBAAI;;;;;;AAEd;uCAEe"}}]
+}
